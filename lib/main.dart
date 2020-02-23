@@ -29,11 +29,11 @@ class NeumorphismState extends State<Neumorphism> {
   Widget columnWidget() {
     return Column(
       children: <Widget>[
-        Expanded(flex: 4, child: neumorphicContainer()),
+        Expanded(flex: 7, child: neumorphicContainer()),
         SizedBox(
           height: 20,
         ),
-        Expanded(flex: 3, child: neumorphicSliders())
+        Expanded(flex: 6, child: neumorphicSliders())
       ],
     );
   }
@@ -204,6 +204,21 @@ class NeumorphismState extends State<Neumorphism> {
     );
   }
 
+  Widget aboutApp() {
+    return Container(
+      width: 300,
+      child: AlertDialog(
+        elevation: 0.5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: Center(
+          child: Text("About"),
+        ),
+        content: Text(
+            'A Neumorphic design tool built with Flutter for the awesome Flutter Community 💙. \nFound some Issues or have some suggestions feel free to create a issue on this repo @github '),
+      ),
+    );
+  }
+
   void onBorderRadiusChange(double value) {
     setState(() {
       borderRadius = value;
@@ -265,7 +280,7 @@ class NeumorphismState extends State<Neumorphism> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => showDialog(context: (context), child: aboutApp()),
         tooltip: 'Info',
         backgroundColor: Colors.white,
         foregroundColor: Colors.grey,

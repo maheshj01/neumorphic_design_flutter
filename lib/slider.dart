@@ -18,11 +18,15 @@ class _SliderControllerState extends State<SliderController> {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
       child: Row(
         children: <Widget>[
-          Text(widget.label),
+          Text(
+            widget.label,
+            style: TextStyle(fontSize: 16),
+          ),
           Expanded(
             child: Container(
               child: SliderTheme(
                   data: SliderThemeData(
+                    valueIndicatorTextStyle: TextStyle(fontSize: 18),
                     valueIndicatorColor: Colors.black,
                     activeTrackColor: Colors.black,
                     thumbColor: Colors.white,
@@ -39,7 +43,10 @@ class _SliderControllerState extends State<SliderController> {
                   )),
             ),
           ),
-          Text(widget.value.toString()),
+          Text(
+            widget.value.toString(),
+            style: TextStyle(fontSize: 16),
+          ),
         ],
       ),
     );
