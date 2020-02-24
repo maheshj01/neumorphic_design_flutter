@@ -3,7 +3,7 @@
 
 ![Peek 2020-02-23 22-47](https://user-images.githubusercontent.com/31410839/75132113-c0d22900-56fb-11ea-8e6b-bce6f72ab26e.gif)
 
-## ![TRY IT OUT ON THE WEB](https://maheshmnj.github.io/neumorphism)
+## [TRY IT OUT ON THE WEB](https://maheshmnj.github.io/neumorphism)
 ![Peek 2020-02-23 23-13](https://user-images.githubusercontent.com/31410839/75132075-9ed8a680-56fb-11ea-8f11-b420d157bf3c.gif)
 
 
