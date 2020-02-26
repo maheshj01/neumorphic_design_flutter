@@ -26,7 +26,8 @@ class _SliderControllerState extends State<SliderController> {
             child: Container(
               child: SliderTheme(
                   data: SliderThemeData(
-                    valueIndicatorTextStyle: TextStyle(fontSize: 18),
+                    valueIndicatorTextStyle:
+                        TextStyle(fontSize: 18, color: Colors.white),
                     valueIndicatorColor: Colors.black,
                     activeTrackColor: Colors.black,
                     thumbColor: Colors.white,
