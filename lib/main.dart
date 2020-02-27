@@ -74,7 +74,7 @@ class NeumorphismState extends State<Neumorphism> {
 
   Widget neumorphicContainer() {
     return Container(
-      color: nightMode ? Color(0xff121212) : Colors.white,
+      color: nightMode ? ThemeData.dark().backgroundColor : Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,7 +121,9 @@ class NeumorphismState extends State<Neumorphism> {
                   width: 200,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: nightMode ? Color(0xFF1F1B24) : Colors.white,
+                      color: nightMode
+                          ? ThemeData.dark().backgroundColor
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(borderRadius),
                       boxShadow: [
                         BoxShadow(
@@ -195,20 +197,45 @@ class NeumorphismState extends State<Neumorphism> {
                 alignment: Alignment.centerRight,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(icon: Icon(Icons.moon), onPressed: null),
-                    Switch(
-                        value: nightMode,
-                        onChanged: (value) {
+                    IconButton(
+                        icon: Icon(Icons.refresh),
+                        iconSize: 30,
+                        onPressed: () {
+                          bloc.blurController.add(DEFAULT_BLUR);
+                          bloc.radiusController.add(DEFAULT_BORDER);
+                          bloc.intensityController.add(DEFAULT_INTENSITY);
+                          bloc.spreadController.add(DEFAULT_SPREAD);
                           setState(() {
-                            nightMode = value;
+                            borderRadius = 20;
+                            blurRadius = 20;
+                            spreadRadius = 10;
+                            intensityValue = 0.1;
+                            nightMode = false;
                           });
                         }),
+                    Wrap(
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.navigation), onPressed: null),
+                        Switch(
+                            value: nightMode,
+                            onChanged: (value) {
+                              setState(() {
+                                nightMode = value;
+                              });
+                            }),
+                      ],
+                    )
                   ],
                 )),
+            Container(
+              height: 1,
+              color: Colors.black26,
+            ),
             StreamBuilder<String>(
-                initialData: "20",
+                initialData: DEFAULT_BORDER,
                 stream: bloc.radiusController.stream,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -224,7 +251,7 @@ class NeumorphismState extends State<Neumorphism> {
                 }),
             StreamBuilder<String>(
                 stream: bloc.blurController.stream,
-                initialData: "20",
+                initialData: DEFAULT_BLUR,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return SliderController(
@@ -239,7 +266,7 @@ class NeumorphismState extends State<Neumorphism> {
                 }),
             StreamBuilder<String>(
                 stream: bloc.spreadController.stream,
-                initialData: "10",
+                initialData: DEFAULT_SPREAD,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return SliderController(
@@ -254,7 +281,7 @@ class NeumorphismState extends State<Neumorphism> {
                 }),
             StreamBuilder<String>(
                 stream: bloc.intensityController.stream,
-                initialData: "0.1",
+                initialData: DEFAULT_INTENSITY,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   print(snapshot.data);
