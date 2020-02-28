@@ -74,7 +74,7 @@ class NeumorphismState extends State<Neumorphism> {
 
   Widget neumorphicContainer() {
     return Container(
-      color: nightMode ? ThemeData.dark().backgroundColor : Colors.white,
+      color: nightMode ? CONTAINER_DARK_COLOR : CONTAINER_WHITE_COLOR,
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -82,7 +82,7 @@ class NeumorphismState extends State<Neumorphism> {
           StreamBuilder<LightSourcePosition>(
               initialData: LightSourcePosition.topLeft,
               stream: bloc.lightController.stream,
-              builder: (context, snapshot) {
+              builder: (context, AsyncSnapshot<LightSourcePosition> snapshot) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -122,22 +122,24 @@ class NeumorphismState extends State<Neumorphism> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: nightMode
-                          ? ThemeData.dark().backgroundColor
-                          : Colors.white,
+                          ? CONTAINER_DARK_COLOR
+                          : CONTAINER_WHITE_COLOR,
                       borderRadius: BorderRadius.circular(borderRadius),
                       boxShadow: [
                         BoxShadow(
                           color: nightMode
-                              ? Colors.white.withOpacity(0.2)
-                              : Colors.white.withOpacity(intensityValue),
+                              ? ThemeData.dark().backgroundColor
+                              : WHITE_LIGHT_COLOR,
                           offset: Offset(-10, -10),
                           blurRadius: blurRadius,
                           spreadRadius: spreadRadius,
                         ),
                         BoxShadow(
                           color: nightMode
-                              ? Colors.white.withOpacity(0.2)
-                              : Colors.black.withOpacity(intensityValue),
+                              ? ThemeData.dark()
+                                  .backgroundColor
+                                  .withOpacity(0.1)
+                              : Color.fromRGBO(206, 213, 222, intensityValue),
                           offset: getOffsetDirection(snapshot),
                           blurRadius: blurRadius,
                           spreadRadius: spreadRadius,
@@ -183,6 +185,9 @@ class NeumorphismState extends State<Neumorphism> {
     );
   }
 
+  Color DARK_LIGHT_COLOR = Color(0XFF54565C);
+  Color DARK_SHADOW_COLOR = Color(0XFF141518);
+  Color CONTAINER_DARK_COLOR = Color(0XFF37383D);
   Widget neumorphicSliders() {
     return Container(
       color: Colors.grey[300].withOpacity(0.2),
@@ -201,18 +206,16 @@ class NeumorphismState extends State<Neumorphism> {
                   children: <Widget>[
                     IconButton(
                         icon: Icon(Icons.refresh),
-                        iconSize: 30,
                         onPressed: () {
                           bloc.blurController.add(DEFAULT_BLUR);
                           bloc.radiusController.add(DEFAULT_BORDER);
                           bloc.intensityController.add(DEFAULT_INTENSITY);
                           bloc.spreadController.add(DEFAULT_SPREAD);
                           setState(() {
-                            borderRadius = 20;
-                            blurRadius = 20;
-                            spreadRadius = 10;
-                            intensityValue = 0.1;
-                            nightMode = false;
+                            borderRadius = double.parse(DEFAULT_BORDER);
+                            blurRadius = double.parse(DEFAULT_BLUR);
+                            spreadRadius = double.parse(DEFAULT_SPREAD);
+                            intensityValue = double.parse(DEFAULT_INTENSITY);
                           });
                         }),
                     Wrap(
@@ -291,8 +294,8 @@ class NeumorphismState extends State<Neumorphism> {
                         : double.parse(snapshot.data),
                     label: "Intensity",
                     onChange: (val) => onIntensityChange(val),
-                    min: 0.1,
-                    max: 0.5,
+                    min: INTENSITY_MIN,
+                    max: INTENSITY_MAX,
                   );
                 })
           ],
@@ -366,7 +369,7 @@ class NeumorphismState extends State<Neumorphism> {
   double borderRadius = 20;
   double blurRadius = 20;
   double spreadRadius = 10;
-  double intensityValue = 0.2;
+  double intensityValue = 0.4;
   bool nightMode = false;
   LightSourcePosition enabled = LightSourcePosition.bottomLeft;
   @override
