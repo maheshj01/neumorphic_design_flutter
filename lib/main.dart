@@ -130,7 +130,6 @@ class NeumorphismState extends State<Neumorphism> {
                           color: nightMode
                               ? ThemeData.dark().backgroundColor
                               : WHITE_LIGHT_COLOR,
-                          offset: Offset(-10, -10),
                           blurRadius: blurRadius,
                           spreadRadius: spreadRadius,
                         ),
@@ -185,9 +184,6 @@ class NeumorphismState extends State<Neumorphism> {
     );
   }
 
-  Color DARK_LIGHT_COLOR = Color(0XFF54565C);
-  Color DARK_SHADOW_COLOR = Color(0XFF141518);
-  Color CONTAINER_DARK_COLOR = Color(0XFF37383D);
   Widget neumorphicSliders() {
     return Container(
       color: Colors.grey[300].withOpacity(0.2),
@@ -198,45 +194,61 @@ class NeumorphismState extends State<Neumorphism> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-                alignment: Alignment.centerRight,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.refresh),
-                        onPressed: () {
-                          bloc.blurController.add(DEFAULT_BLUR);
-                          bloc.radiusController.add(DEFAULT_BORDER);
-                          bloc.intensityController.add(DEFAULT_INTENSITY);
-                          bloc.spreadController.add(DEFAULT_SPREAD);
-                          setState(() {
-                            borderRadius = double.parse(DEFAULT_BORDER);
-                            blurRadius = double.parse(DEFAULT_BLUR);
-                            spreadRadius = double.parse(DEFAULT_SPREAD);
-                            intensityValue = double.parse(DEFAULT_INTENSITY);
-                          });
-                        }),
-                    Wrap(
-                      children: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.navigation), onPressed: null),
-                        Switch(
-                            value: nightMode,
-                            onChanged: (value) {
-                              setState(() {
-                                nightMode = value;
-                              });
-                            }),
-                      ],
-                    )
-                  ],
-                )),
-            Container(
-              height: 1,
-              color: Colors.black26,
-            ),
+            // Container(
+            //     alignment: Alignment.centerRight,
+            //     // margin: EdgeInsets.symmetric(horizontal: 20),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: <Widget>[
+            //         Container(
+            //           margin: EdgeInsets.all(5),
+            //           decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(10),
+            //               color: Colors.white,
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                     offset: Offset(5, 3),
+            //                     blurRadius: 5,
+            //                     color: Colors.grey.withOpacity(0.6)),
+            //                 BoxShadow(
+            //                     offset: Offset(5, 3),
+            //                     blurRadius: 5,
+            //                     color: Colors.grey),
+            //               ]),
+            //           child: IconButton(
+            //               icon: Icon(Icons.refresh),
+            //               onPressed: () {
+            //                 bloc.blurController.add(DEFAULT_BLUR);
+            //                 bloc.radiusController.add(DEFAULT_BORDER);
+            //                 bloc.intensityController.add(DEFAULT_INTENSITY);
+            //                 bloc.spreadController.add(DEFAULT_SPREAD);
+            //                 setState(() {
+            //                   borderRadius = double.parse(DEFAULT_BORDER);
+            //                   blurRadius = double.parse(DEFAULT_BLUR);
+            //                   spreadRadius = double.parse(DEFAULT_SPREAD);
+            //                   intensityValue = double.parse(DEFAULT_INTENSITY);
+            //                 });
+            //               }),
+            //         ),
+            //         Wrap(
+            //           children: <Widget>[
+            //             IconButton(
+            //                 icon: Icon(Icons.navigation), onPressed: null),
+            //             Switch(
+            //                 value: nightMode,
+            //                 onChanged: (value) {
+            //                   setState(() {
+            //                     nightMode = value;
+            //                   });
+            //                 }),
+            //           ],
+            //         )
+            //       ],
+            //     )),
+            // Container(
+            //   height: 1,
+            //   color: Colors.black26,
+            // ),
             StreamBuilder<String>(
                 initialData: DEFAULT_BORDER,
                 stream: bloc.radiusController.stream,
@@ -369,7 +381,7 @@ class NeumorphismState extends State<Neumorphism> {
   double borderRadius = 20;
   double blurRadius = 20;
   double spreadRadius = 10;
-  double intensityValue = 0.4;
+  double intensityValue = 0.8;
   bool nightMode = false;
   LightSourcePosition enabled = LightSourcePosition.bottomLeft;
   @override
