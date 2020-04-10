@@ -5,7 +5,10 @@
 
 ## [TRY IT OUT ON THE WEB](https://maheshmnj.github.io/neumorphism)
 
-## v1.0.1 Improoved Shades and smoothness
+## v1.0.2 Now comes with Code Generation in real time
+![image](https://user-images.githubusercontent.com/31410839/78987109-abe61380-7b4a-11ea-9555-efd4b326ba3d.png)
+
+## v1.0.1 Improved Shades and smoothness
 ![image](https://user-images.githubusercontent.com/31410839/75630896-762d4100-5c14-11ea-8e1a-d9712bf90b58.png)
 
 ## v1.0.0
