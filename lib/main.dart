@@ -1,8 +1,20 @@
+import 'dart:math';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:neumorphism_flutter/const.dart';
 import 'package:neumorphism_flutter/control_bloc.dart';
 import 'package:neumorphism_flutter/lightsourcewidget.dart';
+import 'package:neumorphism_flutter/model.dart';
 import 'package:neumorphism_flutter/slider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:clippy/browser.dart' as clippy;
+import 'const.dart';
+import 'lightsourcewidget.dart';
+import 'lightsourcewidget.dart';
+import 'slider.dart';
 
 void main() => runApp(MyApp());
 
@@ -190,65 +202,116 @@ class NeumorphismState extends State<Neumorphism> {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          controller: _scrollController,
           children: <Widget>[
-            // Container(
-            //     alignment: Alignment.centerRight,
-            //     // margin: EdgeInsets.symmetric(horizontal: 20),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: <Widget>[
-            //         Container(
-            //           margin: EdgeInsets.all(5),
-            //           decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(10),
-            //               color: Colors.white,
-            //               boxShadow: [
-            //                 BoxShadow(
-            //                     offset: Offset(5, 3),
-            //                     blurRadius: 5,
-            //                     color: Colors.grey.withOpacity(0.6)),
-            //                 BoxShadow(
-            //                     offset: Offset(5, 3),
-            //                     blurRadius: 5,
-            //                     color: Colors.grey),
-            //               ]),
-            //           child: IconButton(
-            //               icon: Icon(Icons.refresh),
-            //               onPressed: () {
-            //                 bloc.blurController.add(DEFAULT_BLUR);
-            //                 bloc.radiusController.add(DEFAULT_BORDER);
-            //                 bloc.intensityController.add(DEFAULT_INTENSITY);
-            //                 bloc.spreadController.add(DEFAULT_SPREAD);
-            //                 setState(() {
-            //                   borderRadius = double.parse(DEFAULT_BORDER);
-            //                   blurRadius = double.parse(DEFAULT_BLUR);
-            //                   spreadRadius = double.parse(DEFAULT_SPREAD);
-            //                   intensityValue = double.parse(DEFAULT_INTENSITY);
-            //                 });
-            //               }),
-            //         ),
-            //         Wrap(
-            //           children: <Widget>[
-            //             IconButton(
-            //                 icon: Icon(Icons.navigation), onPressed: null),
-            //             Switch(
-            //                 value: nightMode,
-            //                 onChanged: (value) {
-            //                   setState(() {
-            //                     nightMode = value;
-            //                   });
-            //                 }),
-            //           ],
-            //         )
-            //       ],
-            //     )),
-            // Container(
-            //   height: 1,
-            //   color: Colors.black26,
-            // ),
+            Container(
+                alignment: Alignment.centerRight,
+                // margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                        margin: EdgeInsets.all(5),
+                        // decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     color: Colors.white,
+                        //     boxShadow: [
+                        //       BoxShadow(
+                        //           offset: Offset(5, 3),
+                        //           blurRadius: 5,
+                        //           color: Colors.grey.withOpacity(0.6)),
+                        //       BoxShadow(
+                        //           offset: Offset(5, 3),
+                        //           blurRadius: 5,
+                        //           color: Colors.grey),
+                        //     ]),
+                        child: IconButton(
+                            icon: Icon(Icons.refresh),
+                            onPressed: () {
+                              bloc.blurController.add(DEFAULT_BLUR);
+                              bloc.radiusController.add(DEFAULT_BORDER);
+                              bloc.intensityController.add(DEFAULT_INTENSITY);
+                              bloc.spreadController.add(DEFAULT_SPREAD);
+                              setState(() {
+                                borderRadius = double.parse(DEFAULT_BORDER);
+                                blurRadius = double.parse(DEFAULT_BLUR);
+                                spreadRadius = double.parse(DEFAULT_SPREAD);
+                                intensityValue =
+                                    double.parse(DEFAULT_INTENSITY);
+                              });
+                            })),
+                    IconButton(
+                        icon: Icon(Icons.code),
+                        onPressed: () {
+                          print('$borderRadius');
+                          final model = ContainerModel();
+                          model.blurRadius = blurRadius.toString();
+                          model.borderRadius = borderRadius.toString();
+                          model.spreadRadius = blurRadius.toString();
+                          model.intensity = intensityValue.toString();
+
+                          // final animal = Class((b) => b
+                          //   ..name = 'Container'
+                          //   ..extend = refer('Organism')
+                          //   ..methods.add(Method.returnsVoid((b) => b
+                          //     ..name = 'eat'
+                          //     ..body = const Code("print('Yum');"))));
+                          // final emitter = DartEmitter();
+                          setState(() {
+                            dartCode = getDartCode(model: model);
+                            // dartCode = '${animal.accept(emitter)}';
+                          });
+                          _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeIn);
+                        }),
+                    // Wrap(
+                    //   children: <Widget>[
+                    //     IconButton(
+                    //         icon: Icon(Icons.code),
+                    //         onPressed: () {
+                    //           print('$borderRadius');
+                    //           final model = ContainerModel();
+                    //           model.blurRadius = blurRadius.toString();
+                    //           model.borderRadius = borderRadius.toString();
+                    //           model.spreadRadius = blurRadius.toString();
+                    //           model.intensity = intensityValue.toString();
+
+                    //           // final animal = Class((b) => b
+                    //           //   ..name = 'Container'
+                    //           //   ..extend = refer('Organism')
+                    //           //   ..methods.add(Method.returnsVoid((b) => b
+                    //           //     ..name = 'eat'
+                    //           //     ..body = const Code("print('Yum');"))));
+                    //           // final emitter = DartEmitter();
+                    //           setState(() {
+                    //             dartCode = getDartCode(model: model);
+                    //             // dartCode = '${animal.accept(emitter)}';
+                    //           });
+                    //           _scrollController.animateTo(
+                    //               _scrollController.position.maxScrollExtent,
+                    //               duration: Duration(milliseconds: 500),
+                    //               curve: Curves.easeIn);
+                    //         }),
+                    //     // Switch(
+                    //     //     value: nightMode,
+                    //     //     onChanged: (value) {
+                    //     //       setState(() {
+                    //     //         nightMode = value;
+                    //     //       });
+                    //     //     }),
+                    //   ],
+                    // )
+                  ],
+                )),
+            Container(
+              height: 1,
+              color: Colors.black26,
+            ),
             StreamBuilder<String>(
                 initialData: DEFAULT_BORDER,
                 stream: bloc.radiusController.stream,
@@ -299,7 +362,6 @@ class NeumorphismState extends State<Neumorphism> {
                 initialData: DEFAULT_INTENSITY,
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  print(snapshot.data);
                   return SliderController(
                     value: snapshot.data.length > 5
                         ? double.parse(snapshot.data.substring(0, 5))
@@ -309,11 +371,96 @@ class NeumorphismState extends State<Neumorphism> {
                     min: INTENSITY_MIN,
                     max: INTENSITY_MAX,
                   );
-                })
+                }),
+            codeViewWidget()
           ],
         ),
       ),
     );
+  }
+
+  Widget codeViewWidget() {
+    return Stack(
+      children: <Widget>[
+        StreamBuilder<LightSourcePosition>(
+            initialData: LightSourcePosition.topLeft,
+            stream: bloc.lightController.stream,
+            builder: (BuildContext context,
+                AsyncSnapshot<LightSourcePosition> snapshot) {
+              return Container(
+                  // height: MediaQuery.of(context).size.height / 1.5,
+                  // color: Colors.,
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: Markdown(
+                      physics: NeverScrollableScrollPhysics(),
+                      styleSheet: MarkdownStyleSheet(
+                          code: TextStyle(
+                            fontFamily: "monospace",
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          codeblockPadding: EdgeInsets.all(24),
+                          codeblockDecoration:
+                              BoxDecoration() //boxShadow: _getCodeBoxShadow),
+                          ),
+                      shrinkWrap: true,
+                      data: getDartCode(
+                          model: ContainerModel(
+                        blurRadius: blurRadius.toString(),
+                        borderRadius: borderRadius.toString(),
+                        intensity: intensityValue.toString(),
+                        spreadRadius: spreadRadius.toString(),
+                        offset: getOffsetDirection(snapshot),
+                      ))));
+            }),
+        Positioned(
+            top: 0,
+            right: 0,
+            child: IconButton(
+                icon: Icon(
+                  Icons.content_copy,
+                  color: Colors.black,
+                ),
+                onPressed: () async {
+                  await clippy.write('$dartCode');
+                  showInSnackBar('Code Copied to clipboard');
+                })),
+      ],
+    );
+  }
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
+
+  String getDartCode({ContainerModel model}) {
+    return '''
+          Container(
+                height: 200,
+                width: 200,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    color: Color(0XFFF0F2F5),
+                    borderRadius: BorderRadius.circular('${model.borderRadius ?? '20'}'),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0XFFFFFFFF),
+                        blurRadius: ${model.blurRadius ?? '20'},
+                        spreadRadius: ${model.spreadRadius ?? '20'},
+                        offset:${model.offset} 
+                      ),
+                      BoxShadow(
+                        color: Color.fromRGBO(206, 213, 222, ${model.intensity ?? '0.8'}),
+                        blurRadius: ${model.blurRadius ?? '20'},
+                        spreadRadius: ${model.spreadRadius ?? '20'},
+                      )
+                    ]),
+              );
+  ''';
   }
 
   Widget aboutApp() {
@@ -322,13 +469,36 @@ class NeumorphismState extends State<Neumorphism> {
       child: AlertDialog(
         elevation: 0.5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: Center(
+        title: Container(
+          height: 50,
+          alignment: Alignment.center,
           child: Text("About"),
         ),
-        content: Text(
-            'A Neumorphic design tool built with Flutter for the awesome Flutter Community 💙. \nFound some Issues or have some suggestions feel free to create a issue on this repo @github '),
+        content: Container(
+            height: MediaQuery.of(context).size.height / 5,
+            child: RichText(
+              text: TextSpan(
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                  children: [
+                    TextSpan(text: '$ABOUT_MESSAGE'),
+                    TextSpan(
+                        text: ' @Github ',
+                        style: TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => launchRepo()),
+                  ]),
+            )),
       ),
     );
+  }
+
+  launchRepo() async {
+    String url = '$REPO_URL';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void onBorderRadiusChange(double value) {
@@ -383,11 +553,15 @@ class NeumorphismState extends State<Neumorphism> {
   double spreadRadius = 10;
   double intensityValue = 0.8;
   bool nightMode = false;
+  String dartCode = '';
+  ScrollController _scrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   LightSourcePosition enabled = LightSourcePosition.bottomLeft;
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           if (constraints.maxWidth > 600)

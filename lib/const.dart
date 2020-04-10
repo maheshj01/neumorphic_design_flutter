@@ -18,6 +18,9 @@ const Color WHITE_LIGHT_COLOR = Color(0XFFFFFFFF);
 const Color WHITE_SHADOW_COLOR = Color(0XFFBAC1D3);
 const Color CONTAINER_WHITE_COLOR = Color(0XFFF0F2F5);
 
-  Color DARK_LIGHT_COLOR = Color(0XFF54565C);
-  Color DARK_SHADOW_COLOR = Color(0XFF141518);
-  Color CONTAINER_DARK_COLOR = Color(0XFF37383D);
+Color DARK_LIGHT_COLOR = Color(0XFF54565C);
+Color DARK_SHADOW_COLOR = Color(0XFF141518);
+Color CONTAINER_DARK_COLOR = Color(0XFF37383D);
+const REPO_URL = 'https://github.com/maheshmnj/neumorphic_design_flutter';
+const ABOUT_MESSAGE =
+    'A Neumorphic design tool built with Flutter for the awesome Flutter Community 💙. \n\nFound some Issues or have some suggestions feel free to create an issue';
