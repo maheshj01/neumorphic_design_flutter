@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:neumorphism_flutter/const.dart';
 import 'package:neumorphism_flutter/control_bloc.dart';
@@ -8,7 +9,6 @@ import 'package:neumorphism_flutter/lightsourcewidget.dart';
 import 'package:neumorphism_flutter/model.dart';
 import 'package:neumorphism_flutter/slider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:clippy/browser.dart' as clippy;
 import 'const.dart';
 import 'lightsourcewidget.dart';
 import 'slider.dart';
@@ -348,7 +348,14 @@ class NeumorphismState extends State<Neumorphism> {
                   color: Colors.black,
                 ),
                 onPressed: () async {
-                  await clippy.write('$dartCode');
+                  final model = ContainerModel();
+                  model.blurRadius = blurRadius.toString();
+                  model.borderRadius = borderRadius.toString();
+                  model.spreadRadius = blurRadius.toString();
+                  model.intensity = intensityValue.toString();
+                  dartCode = getDartCode(model: model);
+                  final ClipboardData data = ClipboardData(text: dartCode);
+                  await Clipboard.setData(data);
                   showInSnackBar('Code Copied to clipboard');
                 })),
       ],
@@ -480,6 +487,7 @@ class NeumorphismState extends State<Neumorphism> {
   ScrollController _scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   LightSourcePosition enabled = LightSourcePosition.bottomLeft;
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -494,7 +502,8 @@ class NeumorphismState extends State<Neumorphism> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => showDialog(context: (context), child: aboutApp()),
+        onPressed: () =>
+            showDialog(context: (context), builder: (_) => aboutApp()),
         tooltip: 'Info',
         backgroundColor: Colors.white,
         foregroundColor: Colors.grey,

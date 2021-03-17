@@ -19,7 +19,6 @@ environment:
 dependencies:
   url_launcher: ^5.4.0
   flutter_markdown: ^0.3.4
-  clippy: ^1.0.0
   flutter:
     sdk: flutter
 
