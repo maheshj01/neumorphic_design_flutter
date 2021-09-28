@@ -6,8 +6,8 @@ class LightSource extends StatelessWidget {
   final double angle;
   final LightSourcePosition position;
   final bool isEnabled;
-  final Function onTap;
-  LightSource({this.angle, this.position, this.isEnabled, this.onTap});
+  final Function() onTap;
+  LightSource({required this.angle,required this.position,required this.isEnabled,required this.onTap});
 
   @override
   Widget build(BuildContext context) {

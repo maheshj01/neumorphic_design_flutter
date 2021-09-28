@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class Neumorphism extends StatefulWidget {
-  Neumorphism({Key key, this.title}) : super(key: key);
+  Neumorphism({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -52,7 +52,7 @@ class NeumorphismState extends State<Neumorphism> {
     ]);
   }
 
-  Widget lightSource({double angle}) {
+  Widget lightSource({required double angle}) {
     return Container(
       height: 50,
       width: 50,
@@ -185,7 +185,7 @@ class NeumorphismState extends State<Neumorphism> {
 
   Widget neumorphicSliders() {
     return Container(
-      color: Colors.grey[300].withOpacity(0.2),
+      color: Colors.grey[300]!.withOpacity(0.2),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Container(
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
@@ -243,9 +243,9 @@ class NeumorphismState extends State<Neumorphism> {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return SliderController(
-                    value: snapshot.data.length > 2
-                        ? double.parse(snapshot.data.substring(0, 2))
-                        : double.parse(snapshot.data),
+                    value: snapshot.data!.length > 2
+                        ? double.parse(snapshot.data!.substring(0, 2))
+                        : double.parse(snapshot.data!),
                     label: "Border Radius",
                     onChange: (val) => onBorderRadiusChange(val),
                     min: BORDER_RADIUS_MIN,
@@ -258,9 +258,9 @@ class NeumorphismState extends State<Neumorphism> {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return SliderController(
-                    value: snapshot.data.length > 4
-                        ? double.parse(snapshot.data.substring(0, 4))
-                        : double.parse(snapshot.data),
+                    value: snapshot.data!.length > 4
+                        ? double.parse(snapshot.data!.substring(0, 4))
+                        : double.parse(snapshot.data!),
                     label: "Blur Radius",
                     onChange: (val) => onBlurRadiusChange(val),
                     min: BLUR_RADIUS_MIN,
@@ -273,9 +273,9 @@ class NeumorphismState extends State<Neumorphism> {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return SliderController(
-                    value: snapshot.data.length > 5
-                        ? double.parse(snapshot.data.substring(0, 5))
-                        : double.parse(snapshot.data),
+                    value: snapshot.data!.length > 5
+                        ? double.parse(snapshot.data!.substring(0, 5))
+                        : double.parse(snapshot.data!),
                     label: "Spread Radius",
                     onChange: (val) => onSpreadRadiusChange(val),
                     min: SPREAD_RADIUS_MIN,
@@ -288,9 +288,9 @@ class NeumorphismState extends State<Neumorphism> {
                 builder:
                     (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return SliderController(
-                    value: snapshot.data.length > 5
-                        ? double.parse(snapshot.data.substring(0, 5))
-                        : double.parse(snapshot.data),
+                    value: snapshot.data!.length > 5
+                        ? double.parse(snapshot.data!.substring(0, 5))
+                        : double.parse(snapshot.data!),
                     label: "Intensity",
                     onChange: (val) => onIntensityChange(val),
                     min: INTENSITY_MIN,
@@ -368,7 +368,7 @@ class NeumorphismState extends State<Neumorphism> {
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
-  String getDartCode({ContainerModel model}) {
+  String getDartCode({required ContainerModel model}) {
     return '''
           Container(
                 height: 200,
@@ -464,21 +464,18 @@ class NeumorphismState extends State<Neumorphism> {
     switch (snapshot.data) {
       case LightSourcePosition.topLeft:
         return Offset(10, 10);
-        break;
       case LightSourcePosition.topRight:
         return Offset(-10, 10);
-        break;
       case LightSourcePosition.bottomLeft:
         return Offset(10, -10);
-        break;
       case LightSourcePosition.bottomRight:
         return Offset(-10, -10);
-        break;
       default:
+        return Offset(10, 10);
     }
   }
 
-  Size size;
+  Size? size;
   double borderRadius = 20;
   double blurRadius = 20;
   double spreadRadius = 10;

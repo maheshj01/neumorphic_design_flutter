@@ -6,7 +6,7 @@ class SliderController extends StatefulWidget {
   final double max;
   final String label;
   final Function(double value) onChange;
-  SliderController({this.value, this.min, this.max, this.label, this.onChange});
+  SliderController({required this.value,required this.min,required this.max,required this.label,required this.onChange});
   @override
   _SliderControllerState createState() => _SliderControllerState();
 }
