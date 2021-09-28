@@ -363,7 +363,8 @@ class NeumorphismState extends State<Neumorphism> {
   }
 
   void showInSnackBar(String value) {
-    _scaffoldKey.currentState
+    // ScaffoldMessenger.
+    ScaffoldMessenger.of(context)
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
