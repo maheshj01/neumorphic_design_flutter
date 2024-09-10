@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:neumorphism_flutter/const.dart';
@@ -9,9 +8,6 @@ import 'package:neumorphism_flutter/lightsourcewidget.dart';
 import 'package:neumorphism_flutter/model.dart';
 import 'package:neumorphism_flutter/slider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'const.dart';
-import 'lightsourcewidget.dart';
-import 'slider.dart';
 
 void main() => runApp(MyApp());
 
@@ -127,7 +123,7 @@ class NeumorphismState extends State<Neumorphism> {
                       boxShadow: [
                         BoxShadow(
                           color: nightMode
-                              ? ThemeData.dark().backgroundColor
+                              ? ThemeData.dark().scaffoldBackgroundColor
                               : WHITE_LIGHT_COLOR,
                           blurRadius: blurRadius,
                           spreadRadius: spreadRadius,
@@ -135,7 +131,7 @@ class NeumorphismState extends State<Neumorphism> {
                         BoxShadow(
                           color: nightMode
                               ? ThemeData.dark()
-                                  .backgroundColor
+                                  .scaffoldBackgroundColor
                                   .withOpacity(0.1)
                               : Color.fromRGBO(206, 213, 222, intensityValue),
                           offset: getOffsetDirection(snapshot),
@@ -425,8 +421,8 @@ class NeumorphismState extends State<Neumorphism> {
 
   launchRepo() async {
     String url = '$REPO_URL';
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }
