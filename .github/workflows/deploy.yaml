@@ -14,8 +14,8 @@ jobs:
           channel: "stable"
       - run: flutter clean
       - run: flutter pub get
-      - run: flutter pub run build_runner build --delete-conflicting-outputs
-      - run: flutter build web --release --dart-define=API_KEY=${{secrets.API_KEY}}
+      # - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter build web --wasm
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1
         with:
